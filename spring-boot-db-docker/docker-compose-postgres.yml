@@ -1,0 +1,28 @@
+version: '2'
+services:
+  API:
+    image: 'springboot-databases-docker:latest'
+    ports:
+      - "8888:8080"
+    depends_on:
+      PostgreSQL:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/postgres-demo
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  PostgreSQL:
+    image: postgres
+    ports:
+      - "15432:5432"
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=postgres-demo
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d postgres-demo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

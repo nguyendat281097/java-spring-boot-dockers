@@ -1,0 +1,17 @@
+version: '4'
+services:
+  Oracle-db:
+    image: store/oracle/database-enterprise:12.2.0.1
+    ports:
+      - 1521:1521
+      - 8080:8080
+      - 5500:5500
+    volumes:
+      - /home/oracle/oradata:/opt/oracle/oradata # persistent oracle database data.
+
+  API:
+    image: 'springboot-databases-docker:latest'
+    ports:
+      - "8888:8080"
+    depends_on:
+      - sql-server-db

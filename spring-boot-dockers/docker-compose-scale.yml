@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+    spring-boot-docker-training:
+        build:
+            context: spring-boot-docker
+            dockerfile: Dockerfile
+        image: spring-boot-docker-training:latest
+        ports:
+            - 18885-18888:8080
+        networks:
+            - spring-cloud-network
+networks:
+    spring-cloud-network:
+        driver: bridge
